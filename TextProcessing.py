@@ -1,24 +1,35 @@
 import csv
 
 
-class TextProcessing():
+class TextProcessing:
     def __init__(self):
         self.data = []
         self.labels = []
 
-    def readData(self, paths):
+    def read_data(self, paths):
         for path in paths:
             with open(path, 'rb') as csv_file:
                 reader = csv.reader(csv_file)
                 next(reader, None)
                 for row in reader:
-                    print(row)
+                    self.process_row(row)
+
+    def process_row(self, row):
+        comment = self.process_comment(row[3])
+        self.data.append(comment)
+        self.labels.append(row[4])
+
+    def process_comment(self, comment):
+        return comment
 
 
 if __name__ == "__main__":
     tp = TextProcessing()
-    tp.readData(["data/Youtube01-Psy.csv",
-                 "data/Youtube02-KatyPerry.csv",
-                 "data/Youtube03-LMFAO.csv",
-                 "data/Youtube04-Eminem.csv",
-                 "data/Youtube05-Shakira.csv"])
+    tp.read_data(["data/Youtube01-Psy.csv",
+                  "data/Youtube02-KatyPerry.csv",
+                  "data/Youtube03-LMFAO.csv",
+                  "data/Youtube04-Eminem.csv",
+                  "data/Youtube05-Shakira.csv"])
+
+    print(tp.data)
+    print(tp.labels)
