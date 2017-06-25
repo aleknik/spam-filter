@@ -5,23 +5,24 @@ from TextProcessing import TextProcessing
 
 class FeatureExtraction:
     def __init__(self, data):
-        self.bigram_vectorizer = CountVectorizer(ngram_range=(1,2),
-                                                 token_pattern=r'\b\w+\b', min_df=1)
+        self.vectorizer = CountVectorizer(lowercase=True, analyzer="word", ngram_range=(1, 3), min_df=30)
         self.data = data
 
-    def extract(self):
-        self.bigram_vectorizer.fit_transform(self.data)
-        x = self.bigram_vectorizer.get_feature_names()
-        print(x)
+    def extract_all(self):
+        return self.vectorizer.fit_transform(self.data)
+
+    def extract(self, comment):
+        return self.vectorizer.transform([comment])
 
 
 if __name__ == "__main__":
     tp = TextProcessing()
-    tp.read_data(["data/Youtube01-Psy.csv",
-                  "data/Youtube02-KatyPerry.csv",
-                  "data/Youtube03-LMFAO.csv",
-                  "data/Youtube04-Eminem.csv",
-                  "data/Youtube05-Shakira.csv"])
-    fe = FeatureExtraction(tp.data)
+    # tp.read_data(["data/Youtube01-Psy.csv",
+    #               "data/Youtube02-KatyPerry.csv",
+    #               "data/Youtube03-LMFAO.csv",
+    #               "data/Youtube04-Eminem.csv",
+    #               "data/Youtube05-Shakira.csv"])
 
-    fe.extract()
+    tp.read_data(["data/test.csv"])
+
+    fe = FeatureExtraction(tp.data)
