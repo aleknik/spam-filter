@@ -26,7 +26,9 @@ def main():
     clf.train(features, training_labels)
     print(clf.test(test_data, test_labels))
 
-    print(clf.predict(fe.extract("like comment and subscribe")))
+    comment = tp.process_comment("Like comment and http://www.google.com subscribe")
+
+    print(clf.predict(fe.extract(comment)))
     print (fe.vectorizer.vocabulary_)
     print (len(fe.vectorizer.vocabulary_))
 

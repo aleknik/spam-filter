@@ -1,5 +1,8 @@
 import csv
 import random
+import re
+
+delimiters = ['\n', ' ', ',', '.', '?', '!', ':']
 
 
 class TextProcessing:
@@ -26,7 +29,9 @@ class TextProcessing:
         self.all_data.append([comment, row[4]])
 
     def process_comment(self, comment):
-        return comment
+        comment = comment.lower()
+        new_comment = re.sub(r"http\S+", 'link_url', comment).strip()
+        return new_comment
 
 
 if __name__ == "__main__":
