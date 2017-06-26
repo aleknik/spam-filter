@@ -5,7 +5,8 @@ from TextProcessing import TextProcessing
 
 class FeatureExtraction:
     def __init__(self, data):
-        self.vectorizer = CountVectorizer(lowercase=True, analyzer="word", ngram_range=(1, 3), min_df=30)
+        self.vectorizer = CountVectorizer(lowercase=True, analyzer="word", ngram_range=(1, 3),
+                                          min_df=25)
         self.data = data
 
     def extract_all(self):

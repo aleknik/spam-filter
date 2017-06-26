@@ -1,4 +1,5 @@
 from sklearn import svm
+from sklearn.neural_network import MLPClassifier
 
 
 class Classifier:
@@ -22,4 +23,4 @@ class Classifier:
             else:
                 wrong += 1
 
-        return float(right)/(right + wrong)
+        return float(right) / (right + wrong), right, wrong, right + wrong

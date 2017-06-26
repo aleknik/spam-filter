@@ -2,6 +2,7 @@ from Classifier import Classifier
 from FeatureExtraction import FeatureExtraction
 from TextProcessing import TextProcessing
 
+ratio = 0.7
 
 def main():
     tp = TextProcessing()
@@ -11,10 +12,10 @@ def main():
                   "data/Youtube04-Eminem.csv",
                   "data/Youtube05-Shakira.csv"])
 
-    training_data = tp.data[:int(len(tp.data) * 0.7)]
-    training_labels = tp.labels[:int(len(tp.labels) * 0.7)]
-    test_data = tp.data[int(len(tp.data) * 0.7):]
-    test_labels = tp.labels[int(len(tp.labels) * 0.7):]
+    training_data = tp.comments[:int(len(tp.comments) * ratio)]
+    training_labels = tp.labels[:int(len(tp.labels) * ratio)]
+    test_data = tp.comments[int(len(tp.comments) * ratio):]
+    test_labels = tp.labels[int(len(tp.labels) * ratio):]
 
     fe = FeatureExtraction(training_data)
 
@@ -26,6 +27,8 @@ def main():
     print(clf.test(test_data, test_labels))
 
     print(clf.predict(fe.extract("like comment and subscribe")))
+    print (fe.vectorizer.vocabulary_)
+    print (len(fe.vectorizer.vocabulary_))
 
 
 if __name__ == "__main__":

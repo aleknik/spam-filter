@@ -1,10 +1,12 @@
 import csv
+import random
 
 
 class TextProcessing:
     def __init__(self):
-        self.data = []
+        self.comments = []
         self.labels = []
+        self.all_data = []
 
     def read_data(self, paths):
         for path in paths:
@@ -14,10 +16,14 @@ class TextProcessing:
                 for row in reader:
                     self.process_row(row)
 
+        random.Random(5).shuffle(self.all_data)
+        for data in self.all_data:
+            self.comments.append(data[0])
+            self.labels.append(data[1])
+
     def process_row(self, row):
         comment = self.process_comment(row[3])
-        self.data.append(comment)
-        self.labels.append(row[4])
+        self.all_data.append([comment, row[4]])
 
     def process_comment(self, comment):
         return comment
