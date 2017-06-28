@@ -24,9 +24,14 @@ class TextProcessing:
 
     def process_comment(self, comment):
         comment = comment.lower()
-        comment = re.sub(r"http\S+", 'link_url', comment).strip()
+        comment = re.sub(r"(http\S+)", 'link_url', comment).strip()
         comment = re.sub(words, "", comment).strip()
         return comment
+
+    def print_spam(self):
+        for index, label in enumerate(self.labels):
+            if label == '1':
+                print(self.comments[index])
 
 
 if __name__ == "__main__":

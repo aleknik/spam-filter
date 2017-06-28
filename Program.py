@@ -17,7 +17,8 @@ def main():
                   "data/Youtube04-Eminem.csv",
                   "data/Youtube05-Shakira.csv"])
 
-    print(len(tp.comments))
+    # tp.print_spam()
+    print("Number of comments: %d" % len(tp.comments))
     training_data, test_data, training_labels, test_labels = train_test_split(tp.comments, tp.labels, train_size=0.7,
                                                                               random_state=7)
     fe = FeatureExtraction()
@@ -25,26 +26,27 @@ def main():
 
     clf_svm = SVMClassifier()
     clf_svm.train(fe.extract(training_data), training_labels)
-    comment = tp.process_comment("Like comment and http://www.google.com subscribe")
-    print(comment)
+
     print("SVM results:")
     print(classification_report(test_labels, clf_svm.predict(fe.extract(test_data))))
     print(confusion_matrix(test_labels, clf_svm.predict(fe.extract(test_data))))
-    print(clf_svm.predict(fe.extract([comment])))
+    comment = tp.process_comment("Like comment and http://www.google.com subscribe")
+    print("Test comment: %s" % comment)
+    print("Predicted label: %s" % clf_svm.predict(fe.extract([comment])))
 
     clf_nn = NNClassifier()
     clf_nn.train(fe.extract(training_data), training_labels)
-    comment = tp.process_comment("Like comment and http://www.google.com subscribe")
-    print(comment)
-    print("NN results:")
+    print("\nNN results:")
     print(classification_report(test_labels, clf_nn.predict(fe.extract(test_data))))
     print(confusion_matrix(test_labels, clf_nn.predict(fe.extract(test_data))))
-    print(clf_nn.predict(fe.extract([comment])))
+    comment = tp.process_comment("Like comment and http://www.google.com subscribe")
+    print("Test comment: %s" % comment)
+    print("Predicted label: %s" % clf_nn.predict(fe.extract([comment])))
 
-    #print(fe.vectorizer.vocabulary_)
-    print(len(fe.vectorizer.vocabulary_))
+    # print(fe.vectorizer.vocabulary_)
+    print("Number of features: %d" % len(fe.vectorizer.vocabulary_))
 
-    #classify_youtube_video(clf_svm, fe, "XbGs_qK2PQA")
+    # classify_youtube_video(clf_svm, fe, "XbGs_qK2PQA")
 
 
 def classify_youtube_video(clf, fe, video_id):
@@ -56,7 +58,6 @@ def classify_youtube_video(clf, fe, video_id):
         if pred == '1':
             print("INDEX " + str(index))
             print(api_comments[index])
-
 
 if __name__ == "__main__":
     main()
