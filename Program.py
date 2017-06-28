@@ -41,11 +41,15 @@ def main():
     print(confusion_matrix(test_labels, clf_nn.predict(fe.extract(test_data))))
     print(clf_nn.predict(fe.extract([comment])))
 
-    print(fe.vectorizer.vocabulary_)
+    #print(fe.vectorizer.vocabulary_)
     print(len(fe.vectorizer.vocabulary_))
 
-    api_comments = get_comments("XbGs_qK2PQA")
-    predictions = clf_svm.predict(fe.extract(api_comments))
+    #classify_youtube_video(clf_svm, fe, "XbGs_qK2PQA")
+
+
+def classify_youtube_video(clf, fe, video_id):
+    api_comments = get_comments(video_id)
+    predictions = clf.predict(fe.extract(api_comments))
     print(Counter(predictions))
 
     for index, pred in enumerate(predictions):

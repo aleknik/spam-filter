@@ -15,7 +15,7 @@ class SVMClassifier:
 
 class NNClassifier:
     def __init__(self):
-        self.clf = MLPClassifier(hidden_layer_sizes=(15,), max_iter=1000)
+        self.clf = MLPClassifier(hidden_layer_sizes=(15,), max_iter=1000, activation="logistic")
 
     def train(self, features, labels):
         self.clf.fit(features, labels)
