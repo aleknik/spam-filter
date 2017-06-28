@@ -2,10 +2,9 @@ from sklearn import svm
 from sklearn.neural_network import MLPClassifier
 
 
-class Classifier:
-    def __init__(self, vectorizer):
-        self.vectorizer = vectorizer
-        self.clf = svm.SVC()
+class SVMClassifier:
+    def __init__(self):
+        self.clf = svm.SVC(kernel="linear")
 
     def train(self, features, labels):
         self.clf.fit(features, labels)
@@ -13,14 +12,13 @@ class Classifier:
     def predict(self, feature):
         return self.clf.predict(feature)
 
-    def test(self, data, labels):
-        right = 0
-        wrong = 0
-        for row, label in zip(data, labels):
-            predicted = self.predict(self.vectorizer.extract(row))
-            if predicted == label:
-                right += 1
-            else:
-                wrong += 1
 
-        return float(right) / (right + wrong), right, wrong, right + wrong
+class NNClassifier:
+    def __init__(self):
+        self.clf = MLPClassifier(hidden_layer_sizes=(15,), max_iter=1000)
+
+    def train(self, features, labels):
+        self.clf.fit(features, labels)
+
+    def predict(self, feature):
+        return self.clf.predict(feature)

@@ -1,37 +1,32 @@
 import csv
-import random
 import re
 
-delimiters = ['\n', ' ', ',', '.', '?', '!', ':']
+words = r"\b(the|a)\b"
 
 
 class TextProcessing:
     def __init__(self):
         self.comments = []
         self.labels = []
-        self.all_data = []
 
     def read_data(self, paths):
         for path in paths:
-            with open(path, 'rb') as csv_file:
+            with open(path, 'r', encoding="utf-8") as csv_file:
                 reader = csv.reader(csv_file)
                 next(reader, None)
                 for row in reader:
                     self.process_row(row)
 
-        random.Random(5).shuffle(self.all_data)
-        for data in self.all_data:
-            self.comments.append(data[0])
-            self.labels.append(data[1])
-
     def process_row(self, row):
         comment = self.process_comment(row[3])
-        self.all_data.append([comment, row[4]])
+        self.comments.append(comment)
+        self.labels.append(row[4])
 
     def process_comment(self, comment):
         comment = comment.lower()
-        new_comment = re.sub(r"http\S+", 'link_url', comment).strip()
-        return new_comment
+        comment = re.sub(r"http\S+", 'link_url', comment).strip()
+        comment = re.sub(words, "", comment).strip()
+        return comment
 
 
 if __name__ == "__main__":
@@ -42,5 +37,5 @@ if __name__ == "__main__":
                   "data/Youtube04-Eminem.csv",
                   "data/Youtube05-Shakira.csv"])
 
-    print(tp.data)
+    print(tp.comments)
     print(tp.labels)
